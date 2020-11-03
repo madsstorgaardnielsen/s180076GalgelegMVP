@@ -1,12 +1,13 @@
 package dk.s180076msn.s180076galgelegmvp.playgame;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import dk.s180076msn.s180076galgelegmvp.gamefactory.Game;
 import dk.s180076msn.s180076galgelegmvp.gamefactory.GameFactory;
 import dk.s180076msn.s180076galgelegmvp.settings.SettingsModel;
 
-public class GamePresenter implements Subject{
+public class GamePresenter implements Subject {
     private GameModel gm;
     private SettingsModel sm;
     private GameFactory gf;
@@ -78,12 +79,14 @@ public class GamePresenter implements Subject{
         setWordProgress(wordProgress);
     }
 
-    public ArrayList<String> getUsedLetters() {
-        return gm.getUsedLetters();
+    public String getUsedLetters() {
+        return Arrays.toString(gm.getUsedLetters().toArray()).replace("[", "").replace("]", "");
     }
+
     public void addUsedLetter(String letter) {
         gm.addUsedLetter(letter);
     }
+
     public void clearUsedLetters() {
         gm.clearUsedLetters();
     }
@@ -166,7 +169,7 @@ public class GamePresenter implements Subject{
     @Override
     public void notifyObservers() {
         for (Observer observer : observers) {
-            observer.update(isWon(), isLost(), getHiddenStr(), getAmountWrongGuess(), getUsedLetters());
+            observer.update(isWon(), isLost(), getHiddenStr(), getAmountWrongGuess(), getUsedLetters(), getCorrectWord(), getPlayerName());
         }
         System.out.println("OBSERVERS UPDATED");
     }

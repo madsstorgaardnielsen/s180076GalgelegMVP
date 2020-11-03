@@ -7,60 +7,68 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import java.util.ArrayList;
 
 import dk.s180076msn.s180076galgelegmvp.R;
+import dk.s180076msn.s180076galgelegmvp.mainmenu.MainMenuFrag;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link WonFrag#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class WonFrag extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+public class WonFrag extends Fragment implements Observer, View.OnClickListener {
+    Button gotoMainMenu;
+    TextView winnerNameTextView;
+    TextView amountWrongGuessTextView;
+    ImageView wonGameImg;
+    String playerName;
+    int amountWrongGuess;
+    Subject sgp;
+    Fragment f;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public WonFrag() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment WonFrag.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static WonFrag newInstance(String param1, String param2) {
-        WonFrag fragment = new WonFrag();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
+    public WonFrag(Subject sgp) {
+        this.sgp = sgp;
+        sgp.register(this);
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View root = inflater.inflate(R.layout.fragment_won, container, false);
+        winnerNameTextView = root.findViewById(R.id.winnerNameTextView);
+        amountWrongGuessTextView = root.findViewById(R.id.winnerStatTextView);
+        gotoMainMenu = root.findViewById(R.id.gotoMainMenu);
+
+        wonGameImg = root.findViewById(R.id.winnerImageView);
+        wonGameImg.setImageResource(R.drawable.won);
+
+        winnerNameTextView.setText("Tillykke " + playerName + " du vandt!");
+        if (amountWrongGuess >= 1) {
+            amountWrongGuessTextView.setText("med " + amountWrongGuess + " forkert svar!");
+        } else
+            amountWrongGuessTextView.setText("med " + amountWrongGuess + " forkerte svar!");
+
+        gotoMainMenu.setOnClickListener(this);
+        return root;
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_won, container, false);
+    public void update(boolean isWon, boolean isLost, String hiddenWordProgress, int amountWrongGuess, String usedLetters, String hiddenWord, String playerName) {
+        this.amountWrongGuess = amountWrongGuess;
+        this.playerName = playerName;
+    }
+
+    @Override
+    public void onClick(View v) {
+        f = new MainMenuFrag();
+        setFragment(f);
+    }
+
+    public void setFragment(Fragment f) {
+        getFragmentManager()
+                .beginTransaction()
+                .replace(R.id.MainActivityFL, f)
+                .addToBackStack(null)
+                .commit();
     }
 }
