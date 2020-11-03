@@ -15,15 +15,11 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 import dk.s180076msn.s180076galgelegmvp.R;
-import dk.s180076msn.s180076galgelegmvp.mainmenu.MainMenuFrag;
-import dk.s180076msn.s180076galgelegmvp.playgame.Observer;
-import dk.s180076msn.s180076galgelegmvp.playgame.Subject;
+import dk.s180076msn.s180076galgelegmvp.MainMenuFrag;
 
 public class SettingsFrag extends Fragment implements View.OnClickListener {
     Button easyButton, mediumButton, hardButton, goToMenu;

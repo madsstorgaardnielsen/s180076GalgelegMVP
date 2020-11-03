@@ -11,10 +11,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-
 import dk.s180076msn.s180076galgelegmvp.R;
-import dk.s180076msn.s180076galgelegmvp.mainmenu.MainMenuFrag;
+import dk.s180076msn.s180076galgelegmvp.MainMenuFrag;
 
 
 public class WonFrag extends Fragment implements Observer, View.OnClickListener {

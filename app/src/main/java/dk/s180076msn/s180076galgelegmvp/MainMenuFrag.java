@@ -1,4 +1,4 @@
-package dk.s180076msn.s180076galgelegmvp.mainmenu;
+package dk.s180076msn.s180076galgelegmvp;
 
 import android.os.Bundle;
 
@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 import dk.s180076msn.s180076galgelegmvp.R;
+import dk.s180076msn.s180076galgelegmvp.help.HelpFrag;
 import dk.s180076msn.s180076galgelegmvp.highscore.HighscoreFrag;
 import dk.s180076msn.s180076galgelegmvp.playgame.GameFrag;
 import dk.s180076msn.s180076galgelegmvp.settings.SettingsFrag;
@@ -52,7 +53,8 @@ public class MainMenuFrag extends Fragment implements View.OnClickListener {
             f = new SettingsFrag();
             setFragment(f);
         } else if (v == helpButton) {
-            //TODO helpfrag
+            f = new HelpFrag();
+            setFragment(f);
         }
     }
 
