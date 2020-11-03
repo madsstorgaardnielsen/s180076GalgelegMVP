@@ -13,4 +13,49 @@
         android:textAlignment="center"
         android:textSize="30sp"
         android:textStyle="bold"/>
+
+
+    <LinearLayout
+        android:layout_marginTop="50dp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_marginTop="25dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"
+            android:id="@+id/tv1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Inden spillet startes, kan man under settings i menuen vælge imellem 3 sværhedsgrader: nem, mellem og svær. denne instilling gemmes og vil være sat indtil man enten skruer op eller ned" />
+
+        <TextView
+            android:layout_marginTop="25dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"
+            android:id="@+id/mediumButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Når spillet startes vil der ca. midt på skærmen blive vist et skjult ord, det er nu din opgave at gætte dette ord. Hvis du undervejs gætter et bogstav korrekt, vil det skjulte ord blive opdateret, så du kan se hvor langt du er kommet." />
+
+        <TextView
+            android:layout_marginTop="25dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"
+            android:id="@+id/hardButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Spillet slutter når du enten har gættet ordet, eller du er løbet tør for chancer. Du har 7 chancer i alt." />
+
+        <Button
+            android:layout_marginTop="50dp"
+            android:id="@+id/gotoMainMenu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Gå til menu" />
+
+    </LinearLayout>
 </FrameLayout>
