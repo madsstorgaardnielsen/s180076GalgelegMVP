@@ -25,7 +25,10 @@ public class GameModel {
         this.isWon = isWon;
     }
 
-    public GameModel(String difficultyLevel) {
+    public GameModel() {
+    }
+
+        public GameModel(String difficultyLevel) {
         this.difficultyLevel = difficultyLevel;
     }
 

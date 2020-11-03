@@ -1,5 +1,12 @@
 package dk.s180076msn.s180076galgelegmvp.playgame;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -13,17 +20,28 @@ public class GamePresenter implements Subject {
     private GameFactory gf;
     private Game g;
     private ArrayList<Observer> observers;
+    String SETTINGSKEY = "settingskey";
+    String SHAREDPREFKEY = "shared_preferences";
+    ArrayList<SettingsModel> difficultySettings;
+    Context context;
 
-    public GamePresenter() {
+    public GamePresenter(Context context) {
+        this.context = context;
+        //loadSettings();
         sm = new SettingsModel();
-        gm = new GameModel(sm.getDifficultyLevel());
+        gm = new GameModel();
         gf = new GameFactory();
         observers = new ArrayList<>();
+        //difficultySettings = new ArrayList<>();
         initGame();
     }
 
     public void initGame() {
         //TODO load sværhedsgrad fra settings
+        sm.setDifficultyLevel(loadSettings());
+        //String test = loadSettings();
+        //System.out.println("++++++++++++"+test+"++++++++++++");
+
         g = gf.makeGame(sm.getDifficultyLevel());
 
         setCorrectWord(g.getCorrectWord());
@@ -34,6 +52,19 @@ public class GamePresenter implements Subject {
         setPlayerName(g.getPlayerName());
         setWordProgress(getHiddenStr());
         clearUsedLetters();
+    }
+
+    private String loadSettings() {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(SHAREDPREFKEY, Context.MODE_PRIVATE);
+        Gson gson = new Gson();
+        String json = sharedPreferences.getString(SETTINGSKEY, null);
+        Type type = new TypeToken<ArrayList<SettingsModel>>() {}.getType();
+        difficultySettings = gson.fromJson(json, type);
+
+        if (difficultySettings == null) {
+            difficultySettings = new ArrayList<>();
+        }
+        return difficultySettings.get(0).getDifficultyLevel();
     }
 
     public boolean guessLetter(String letter) {

@@ -25,6 +25,7 @@ import java.util.ArrayList;
 
 import dk.s180076msn.s180076galgelegmvp.R;
 import dk.s180076msn.s180076galgelegmvp.highscore.HighscoreModel;
+import dk.s180076msn.s180076galgelegmvp.settings.SettingsModel;
 
 
 public class GameFrag extends Fragment implements Observer, View.OnClickListener {
@@ -53,15 +54,13 @@ public class GameFrag extends Fragment implements Observer, View.OnClickListener
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_game, container, false);
-        gp = new GamePresenter();
+        gp = new GamePresenter(getActivity());
 
         wf = new WonFrag(gp);
         lf = new LostFrag(gp);
 
         sgp = gp;
         sgp.register(this);
-
-        //highscores = new ArrayList<>();
 
         progressImage = root.findViewById(R.id.imageView);
         progressImage.setImageResource(R.drawable.forkert0);
