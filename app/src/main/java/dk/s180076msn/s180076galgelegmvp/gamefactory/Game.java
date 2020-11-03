@@ -3,13 +3,13 @@ package dk.s180076msn.s180076galgelegmvp.gamefactory;
 import java.util.ArrayList;
 
 public abstract class Game {
-    ArrayList<String> wordList = new ArrayList<>();
-    boolean isWon = false;
-    boolean isLost = false;
-    String correctWord;
-    String guess;
-    String playerName;
-    int amountWrongGuess;
+    private ArrayList<String> wordList = new ArrayList<>();
+    private boolean isWon = false;
+    private boolean isLost = false;
+    private String correctWord;
+    private String guess;
+    private String playerName;
+    private int amountWrongGuess;
 
     public ArrayList<String> getWordList() {
         return wordList;

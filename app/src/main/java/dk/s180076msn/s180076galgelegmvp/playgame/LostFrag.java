@@ -17,14 +17,14 @@ import dk.s180076msn.s180076galgelegmvp.R;
 import dk.s180076msn.s180076galgelegmvp.mainmenu.MainMenuFrag;
 
 public class LostFrag extends Fragment implements Observer, View.OnClickListener {
-    Fragment f;
-    Button gotoMainMenu;
-    TextView loserNameTextView;
-    TextView hiddenWordTextView;
-    ImageView lostGameImg;
-    String playerName;
-    String hiddenWord;
-    Subject sgp;
+    private Fragment f;
+    private Button gotoMainMenu;
+    private TextView loserNameTextView;
+    private TextView hiddenWordTextView;
+    private ImageView lostGameImg;
+    private String playerName;
+    private String hiddenWord;
+    private Subject sgp;
 
     public LostFrag(Subject sgp) {
         this.sgp = sgp;
@@ -40,7 +40,7 @@ public class LostFrag extends Fragment implements Observer, View.OnClickListener
         lostGameImg = root.findViewById(R.id.loserImageView);
         lostGameImg.setImageResource(R.drawable.lost);
 
-        loserNameTextView.setText("Desværre " + playerName + " du tabte!");
+        loserNameTextView.setText("Desværre " + playerName + ", du tabte!");
         hiddenWordTextView.setText("Ordet var: " + hiddenWord);
 
         gotoMainMenu.setOnClickListener(this);

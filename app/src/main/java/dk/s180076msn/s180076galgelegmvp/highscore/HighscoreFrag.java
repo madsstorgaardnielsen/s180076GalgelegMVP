@@ -23,14 +23,15 @@ import java.util.Comparator;
 import dk.s180076msn.s180076galgelegmvp.R;
 
 public class HighscoreFrag extends Fragment {
-    ListView listView;
-    ArrayList<HighscoreModel> highscores;
-    String SHAREDPREFKEY = "shared_preferences";
-    String HIGHSCOREKEY = "highscore";
+    private ListView listView;
+    private ArrayList<HighscoreModel> highscores;
+    private final String SHAREDPREFKEY = "shared_preferences";
+    private final String HIGHSCOREKEY = "highscore";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_highscore, container, false);
+
         loadData();
         sortHighscores();
 
@@ -38,7 +39,6 @@ public class HighscoreFrag extends Fragment {
         listView.setAdapter(new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, highscores));
 
         return root;
-
     }
 
     private void loadData() {

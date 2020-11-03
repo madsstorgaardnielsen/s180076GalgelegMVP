@@ -29,25 +29,25 @@ import dk.s180076msn.s180076galgelegmvp.settings.SettingsModel;
 
 
 public class GameFrag extends Fragment implements Observer, View.OnClickListener {
-    Fragment wf;
-    Fragment lf;
-    GamePresenter gp;
-    Subject sgp;
-    HighscoreModel hm;
-    ImageView progressImage;
-    Button doGuessButton;
-    TextView hiddenWordProgressTextView, usedLettersTextView, amountWrongGuessTextView;
-    EditText guessEditText;
-    ArrayList<HighscoreModel> highscores;
+    private Fragment wf;
+    private Fragment lf;
+    private GamePresenter gp;
+    private Subject sgp;
+    private HighscoreModel hm;
+    private ImageView progressImage;
+    private Button doGuessButton;
+    private TextView hiddenWordProgressTextView, usedLettersTextView, amountWrongGuessTextView;
+    private EditText guessEditText;
+    private ArrayList<HighscoreModel> highscores;
 
-    String SHAREDPREFKEY = "shared_preferences";
-    String HIGHSCOREKEY = "highscore";
+    private final String SHAREDPREFKEY = "shared_preferences";
+    private final String HIGHSCOREKEY = "highscore";
 
     String hiddenWordProgress;
     String amountWrongStr = "ud af 7 forkerte gæt brugt.";
     String noGuessYet = "Ingen gæt foretaget endnu.";
-    int amountWrongGuess;
     String usedLetters;
+    int amountWrongGuess;
     boolean isWon;
     boolean isLost;
 
@@ -71,7 +71,7 @@ public class GameFrag extends Fragment implements Observer, View.OnClickListener
         usedLettersTextView = root.findViewById(R.id.usedLettersTextView);
         amountWrongGuessTextView = root.findViewById(R.id.numberOfGuessesTextView);
 
-        amountWrongGuessTextView.setText(0+" "+amountWrongStr);
+        amountWrongGuessTextView.setText(0 + " " + amountWrongStr);
         usedLettersTextView.setText(noGuessYet);
         hiddenWordProgressTextView.setText(gp.getWordProgress());
 
@@ -87,7 +87,7 @@ public class GameFrag extends Fragment implements Observer, View.OnClickListener
         if (gp.guessLetter(guess)) {
             hiddenWordProgressTextView.setText(gp.getWordProgress());
         } else {
-            amountWrongGuessTextView.setText(gp.getAmountWrongGuess()+" "+ amountWrongStr);
+            amountWrongGuessTextView.setText(gp.getAmountWrongGuess() + " " + amountWrongStr);
         }
         usedLettersTextView.setText(gp.getUsedLetters());
         guessEditText.setText("");
@@ -110,9 +110,9 @@ public class GameFrag extends Fragment implements Observer, View.OnClickListener
                 .commit();
     }
 
-        public void saveHighscore() {
+    public void saveHighscore() {
         loadHighscore();
-        hm = new HighscoreModel(gp.getPlayerName(),gp.getCorrectWord(),gp.getAmountWrongGuess());
+        hm = new HighscoreModel(gp.getPlayerName(), gp.getCorrectWord(), gp.getAmountWrongGuess());
         highscores.add(hm);
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences(SHAREDPREFKEY, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -126,7 +126,8 @@ public class GameFrag extends Fragment implements Observer, View.OnClickListener
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences(SHAREDPREFKEY, Context.MODE_PRIVATE);
         Gson gson = new Gson();
         String json = sharedPreferences.getString(HIGHSCOREKEY, null);
-        Type type = new TypeToken<ArrayList<HighscoreModel>>() {}.getType();
+        Type type = new TypeToken<ArrayList<HighscoreModel>>() {
+        }.getType();
         highscores = gson.fromJson(json, type);
 
         if (highscores == null) {
@@ -162,6 +163,6 @@ public class GameFrag extends Fragment implements Observer, View.OnClickListener
         this.amountWrongGuess = amountWrongGuess;
         this.usedLetters = usedLetters;
         this.isLost = isLost;
-        this.isWon=isWon;
+        this.isWon = isWon;
     }
 }

@@ -5,65 +5,62 @@ import java.util.Random;
 
 
 public class GameFactory {
-
-    ArrayList<String> wordList;
-    int amountWrongGuess;
-    boolean isLost = false;
-    boolean isWon = false;
-    String correctWord;
+    private ArrayList<String> wordList;
+    private int amountWrongGuess;
+    private boolean isLost = false;
+    private boolean isWon = false;
+    private String correctWord;
 
     public Game makeGame(String difficultyLevel) {
         wordList = new ArrayList<>();
         wordList.clear();
 
-        if (difficultyLevel.equals("easy")) {
-            easyGame();
-            startNewGame();
-            return new EasyGame(wordList, amountWrongGuess, isLost, isWon, correctWord);
-        } else if (difficultyLevel.equals("medium")) {
-            mediumGame();
-            startNewGame();
-            return new MediumGame(wordList, amountWrongGuess, isLost, isWon, correctWord);
-        } else if (difficultyLevel.equals("hard")) {
-            hardGame();
-            startNewGame();
-            return new HardGame(wordList, amountWrongGuess, isLost, isWon, correctWord);
-        } else return null;
+        switch (difficultyLevel) {
+            case "easy":
+                easyGame();
+                startNewGame();
+                return new EasyGame(wordList, amountWrongGuess, isLost, isWon, correctWord);
+            case "medium":
+                mediumGame();
+                startNewGame();
+                return new MediumGame(wordList, amountWrongGuess, isLost, isWon, correctWord);
+            case "hard":
+                hardGame();
+                startNewGame();
+                return new HardGame(wordList, amountWrongGuess, isLost, isWon, correctWord);
+            default:
+                return null;
+        }
     }
 
-    public void startNewGame() {
+    private void startNewGame() {
         correctWord = wordList.get(new Random().nextInt(wordList.size()));
         amountWrongGuess = 0;
         isLost = false;
         isWon = false;
     }
 
-    public void easyGame() {
-        wordList.add("e");
-/*        wordList.add("dæk");
+    private void easyGame() {
+        wordList.add("dæk");
         wordList.add("død");
         wordList.add("bøf");
-        wordList.add("Damp");
-        wordList.add("Drab");*/
+        wordList.add("damp");
+        wordList.add("drab");
     }
 
-    public void mediumGame() {
-        wordList.add("medium");
-/*        wordList.add("Kager");
-        wordList.add("Penge");
-        wordList.add("Prag");
-        wordList.add("Hunde");
-        wordList.add("Fodder");*/
+    private void mediumGame() {
+        wordList.add("kager");
+        wordList.add("penge");
+        wordList.add("prag");
+        wordList.add("hunde");
+        wordList.add("fodder");
     }
 
     public void hardGame() {
-        wordList.add("hard");
-/*        wordList.add("Kastanjerne");
-        wordList.add("Kolibrierne");
-        wordList.add("Musvågen");
-        wordList.add("Elefanter");
-        wordList.add("Guitaren");*/
+        wordList.add("kastanjerne");
+        wordList.add("kolibrierne");
+        wordList.add("musvågen");
+        wordList.add("elefanter");
+        wordList.add("guitaren");
     }
-
-
 }

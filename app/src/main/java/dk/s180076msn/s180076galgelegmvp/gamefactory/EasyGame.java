@@ -3,11 +3,11 @@ package dk.s180076msn.s180076galgelegmvp.gamefactory;
 import java.util.ArrayList;
 
 public class EasyGame extends Game {
-    ArrayList<String> wordList;
-    int amountWrongGuess;
-    boolean isLost;
-    boolean isWon;
-    String correctWord;
+    private ArrayList<String> wordList;
+    private int amountWrongGuess;
+    private boolean isLost;
+    private boolean isWon;
+    private String correctWord;
 
     public EasyGame(ArrayList<String> wordList, int amountWrongGuess, boolean isLost, boolean isWon, String correctWord) {
         this.wordList = wordList;

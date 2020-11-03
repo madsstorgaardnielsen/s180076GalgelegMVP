@@ -28,7 +28,7 @@ public class GameModel {
     public GameModel() {
     }
 
-        public GameModel(String difficultyLevel) {
+    public GameModel(String difficultyLevel) {
         this.difficultyLevel = difficultyLevel;
     }
 

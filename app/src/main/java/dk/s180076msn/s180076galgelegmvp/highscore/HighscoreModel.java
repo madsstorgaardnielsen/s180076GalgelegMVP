@@ -1,9 +1,9 @@
 package dk.s180076msn.s180076galgelegmvp.highscore;
 
 public class HighscoreModel {
-    String playerName;
-    String correctWord;
-    int amountWrongGuess;
+    private String playerName;
+    private String correctWord;
+    private int amountWrongGuess;
 
     public int getAmountWrongGuess() {
         return amountWrongGuess;

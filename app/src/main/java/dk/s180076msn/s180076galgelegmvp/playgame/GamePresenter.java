@@ -20,28 +20,22 @@ public class GamePresenter implements Subject {
     private GameFactory gf;
     private Game g;
     private ArrayList<Observer> observers;
-    String SETTINGSKEY = "settingskey";
-    String SHAREDPREFKEY = "shared_preferences";
-    ArrayList<SettingsModel> difficultySettings;
-    Context context;
+    private final String SETTINGSKEY = "settingskey";
+    private final String SHAREDPREFKEY = "shared_preferences";
+    private ArrayList<SettingsModel> difficultySettings;
+    private Context context;
 
     public GamePresenter(Context context) {
         this.context = context;
-        //loadSettings();
         sm = new SettingsModel();
         gm = new GameModel();
         gf = new GameFactory();
         observers = new ArrayList<>();
-        //difficultySettings = new ArrayList<>();
         initGame();
     }
 
     public void initGame() {
-        //TODO load sværhedsgrad fra settings
         sm.setDifficultyLevel(loadSettings());
-        //String test = loadSettings();
-        //System.out.println("++++++++++++"+test+"++++++++++++");
-
         g = gf.makeGame(sm.getDifficultyLevel());
 
         setCorrectWord(g.getCorrectWord());
@@ -58,7 +52,8 @@ public class GamePresenter implements Subject {
         SharedPreferences sharedPreferences = context.getSharedPreferences(SHAREDPREFKEY, Context.MODE_PRIVATE);
         Gson gson = new Gson();
         String json = sharedPreferences.getString(SETTINGSKEY, null);
-        Type type = new TypeToken<ArrayList<SettingsModel>>() {}.getType();
+        Type type = new TypeToken<ArrayList<SettingsModel>>() {
+        }.getType();
         difficultySettings = gson.fromJson(json, type);
 
         if (difficultySettings == null) {
@@ -68,14 +63,14 @@ public class GamePresenter implements Subject {
     }
 
     public boolean guessLetter(String letter) {
-        addUsedLetter(letter);
-        String correctWord = gm.getCorrectWord();
+        addUsedLetter(letter.toLowerCase());
+        String correctWord = gm.getCorrectWord().toLowerCase();
         int amountWrongGuess = gm.getAmountWrongGuess();
         if (correctWord.contains(letter)) {
             setHiddenWordProgress();
             return true;
         } else {
-            amountWrongGuess++;
+            ++amountWrongGuess;
             setAmountWrongGuess(amountWrongGuess);
             if (amountWrongGuess == 7) {
                 setLost(true);

@@ -18,14 +18,14 @@ import dk.s180076msn.s180076galgelegmvp.mainmenu.MainMenuFrag;
 
 
 public class WonFrag extends Fragment implements Observer, View.OnClickListener {
+    Fragment f;
     Button gotoMainMenu;
     TextView winnerNameTextView;
     TextView amountWrongGuessTextView;
     ImageView wonGameImg;
-    String playerName;
-    int amountWrongGuess;
     Subject sgp;
-    Fragment f;
+    int amountWrongGuess;
+    String playerName;
 
     public WonFrag(Subject sgp) {
         this.sgp = sgp;
@@ -42,7 +42,7 @@ public class WonFrag extends Fragment implements Observer, View.OnClickListener 
         wonGameImg = root.findViewById(R.id.winnerImageView);
         wonGameImg.setImageResource(R.drawable.won);
 
-        winnerNameTextView.setText("Tillykke " + playerName + " du vandt!");
+        winnerNameTextView.setText("Tillykke " + playerName + ", du vandt!");
         if (amountWrongGuess >= 1) {
             amountWrongGuessTextView.setText("med " + amountWrongGuess + " forkert svar!");
         } else

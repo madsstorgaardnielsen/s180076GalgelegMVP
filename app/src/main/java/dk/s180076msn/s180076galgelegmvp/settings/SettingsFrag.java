@@ -6,10 +6,13 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -23,10 +26,11 @@ import dk.s180076msn.s180076galgelegmvp.playgame.Observer;
 import dk.s180076msn.s180076galgelegmvp.playgame.Subject;
 
 public class SettingsFrag extends Fragment implements View.OnClickListener {
-    Button easyButton, mediumButton,hardButton, goToMenu;
-    String DIFFICULTY_LEVEL_EASY = "easy";
-    String DIFFICULTY_LEVEL_MEDIUM = "medium";
-    String DIFFICULTY_LEVEL_HARD = "hard";
+    Button easyButton, mediumButton, hardButton, goToMenu;
+    ImageView imageView;
+    private final String DIFFICULTY_LEVEL_EASY = "easy";
+    private final String DIFFICULTY_LEVEL_MEDIUM = "medium";
+    private final String DIFFICULTY_LEVEL_HARD = "hard";
     String difficultyLevel = "";
     SettingsModel settings;
     ArrayList<SettingsModel> difficultySettings;
@@ -39,8 +43,8 @@ public class SettingsFrag extends Fragment implements View.OnClickListener {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_settings, container, false);
-
-        //TODO knapperne skal sætte en sværhedsgrad, denne gemmes vha pref manager, og indlæses i gamepresenter når init game kaldes.
+        imageView = root.findViewById(R.id.imageView);
+        imageView.setImageResource(R.drawable.won);
 
         easyButton = root.findViewById(R.id.easyButton);
         mediumButton = root.findViewById(R.id.mediumButton);
@@ -58,15 +62,24 @@ public class SettingsFrag extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         if (v == easyButton) {
             difficultyLevel = DIFFICULTY_LEVEL_EASY;
+            makeToast(difficultyLevel);
         } else if (v == mediumButton) {
             difficultyLevel = DIFFICULTY_LEVEL_MEDIUM;
+            makeToast(difficultyLevel);
         } else if (v == hardButton) {
             difficultyLevel = DIFFICULTY_LEVEL_HARD;
+            makeToast(difficultyLevel);
         } else if (v == goToMenu) {
             f = new MainMenuFrag();
             setFragment(f);
         }
         saveSettings();
+    }
+
+    public void makeToast(String difficultyLevel) {
+        Toast toast = Toast.makeText(getActivity(), "Sværhedsgraden er nu sat til: " + difficultyLevel, Toast.LENGTH_LONG);
+        toast.setGravity(Gravity.CENTER, 0, -500);
+        toast.show();
     }
 
     public void saveSettings() {
@@ -89,16 +102,4 @@ public class SettingsFrag extends Fragment implements View.OnClickListener {
                 .addToBackStack(null)
                 .commit();
     }
-
-/*    private void loadSettings() {
-        SharedPreferences sharedPreferences = getActivity().getSharedPreferences(SHAREDPREFKEY, Context.MODE_PRIVATE);
-        Gson gson = new Gson();
-        String json = sharedPreferences.getString(SETTINGSKEY, null);
-        Type type = new TypeToken<ArrayList<SettingsModel>>() {}.getType();
-        difficultySettings = gson.fromJson(json, type);
-
-        if (difficultySettings == null) {
-            difficultySettings = new ArrayList<>();
-        }
-    }*/
 }

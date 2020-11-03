@@ -3,19 +3,18 @@ package dk.s180076msn.s180076galgelegmvp.gamefactory;
 import java.util.ArrayList;
 
 public class MediumGame extends Game {
-
-    ArrayList<String> wordList;
-    int amountWrongGuess;
-    boolean isLost;
-    boolean isWon;
-    String correctWord;
+    private ArrayList<String> wordList;
+    private int amountWrongGuess;
+    private boolean isLost;
+    private boolean isWon;
+    private String correctWord;
 
     public MediumGame(ArrayList<String> wordList, int amountWrongGuess, boolean isLost, boolean isWon, String correctWord) {
         this.wordList = wordList;
         this.amountWrongGuess = amountWrongGuess;
         this.isLost = isLost;
         this.isWon = isWon;
-        this.correctWord=correctWord;
+        this.correctWord = correctWord;
     }
 
     @Override
