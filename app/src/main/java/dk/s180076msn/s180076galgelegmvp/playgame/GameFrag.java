@@ -1,7 +1,9 @@
 package dk.s180076msn.s180076galgelegmvp.playgame;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -15,9 +17,14 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 import dk.s180076msn.s180076galgelegmvp.R;
+import dk.s180076msn.s180076galgelegmvp.highscore.HighscoreModel;
 
 
 public class GameFrag extends Fragment implements Observer, View.OnClickListener {
@@ -25,10 +32,15 @@ public class GameFrag extends Fragment implements Observer, View.OnClickListener
     Fragment lf;
     GamePresenter gp;
     Subject sgp;
+    HighscoreModel hm;
     ImageView progressImage;
     Button doGuessButton;
     TextView hiddenWordProgressTextView, usedLettersTextView, amountWrongGuessTextView;
     EditText guessEditText;
+    ArrayList<HighscoreModel> highscores;
+
+    String SHAREDPREFKEY = "shared_preferences";
+    String HIGHSCOREKEY = "highscore";
 
     String hiddenWordProgress;
     String amountWrongStr = "ud af 7 forkerte gæt brugt.";
@@ -49,6 +61,8 @@ public class GameFrag extends Fragment implements Observer, View.OnClickListener
         sgp = gp;
         sgp.register(this);
 
+        //highscores = new ArrayList<>();
+
         progressImage = root.findViewById(R.id.imageView);
         progressImage.setImageResource(R.drawable.forkert0);
 
@@ -62,8 +76,7 @@ public class GameFrag extends Fragment implements Observer, View.OnClickListener
         usedLettersTextView.setText(noGuessYet);
         hiddenWordProgressTextView.setText(gp.getWordProgress());
 
-        //getName();
-        gp.setPlayerName("Mads");
+        getName();
 
         doGuessButton.setOnClickListener(this);
         return root;
@@ -84,6 +97,7 @@ public class GameFrag extends Fragment implements Observer, View.OnClickListener
 
     public void isGameOver() {
         if (isWon) {
+            saveHighscore();
             setFragment(wf);
         } else if (isLost) {
             setFragment(lf);
@@ -95,6 +109,30 @@ public class GameFrag extends Fragment implements Observer, View.OnClickListener
                 .beginTransaction()
                 .replace(R.id.MainActivityFL, fragment)
                 .commit();
+    }
+
+        public void saveHighscore() {
+        loadHighscore();
+        hm = new HighscoreModel(gp.getPlayerName(),gp.getCorrectWord(),gp.getAmountWrongGuess());
+        highscores.add(hm);
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences(SHAREDPREFKEY, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(highscores);
+        editor.putString(HIGHSCOREKEY, json);
+        editor.apply();
+    }
+
+    private void loadHighscore() {
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences(SHAREDPREFKEY, Context.MODE_PRIVATE);
+        Gson gson = new Gson();
+        String json = sharedPreferences.getString(HIGHSCOREKEY, null);
+        Type type = new TypeToken<ArrayList<HighscoreModel>>() {}.getType();
+        highscores = gson.fromJson(json, type);
+
+        if (highscores == null) {
+            highscores = new ArrayList<>();
+        }
     }
 
     public void getName() {

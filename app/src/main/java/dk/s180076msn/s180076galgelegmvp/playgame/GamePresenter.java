@@ -23,7 +23,7 @@ public class GamePresenter implements Subject {
     }
 
     public void initGame() {
-        //TODO alle gamemodels variable sættes af gamefactory
+        //TODO load sværhedsgrad fra settings
         g = gf.makeGame(sm.getDifficultyLevel());
 
         setCorrectWord(g.getCorrectWord());

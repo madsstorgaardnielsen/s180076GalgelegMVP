@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 import dk.s180076msn.s180076galgelegmvp.R;
+import dk.s180076msn.s180076galgelegmvp.highscore.HighscoreFrag;
 import dk.s180076msn.s180076galgelegmvp.playgame.GameFrag;
 
 public class MainMenuFrag extends Fragment implements View.OnClickListener {
@@ -43,8 +44,8 @@ public class MainMenuFrag extends Fragment implements View.OnClickListener {
             f = new GameFrag();
             setFragment(f);
         } else if (v == highscoreButton) {
-            //TODO highscorefrag
-
+            f = new HighscoreFrag();
+            setFragment(f);
         } else if (v == settingsButton) {
             //TODO settingsfrag
         } else if (v == helpButton) {

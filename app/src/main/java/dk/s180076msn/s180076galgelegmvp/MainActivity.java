@@ -28,29 +28,4 @@ public class MainActivity extends AppCompatActivity {
                 .replace(R.id.MainActivityFL, fragment)
                 .commit();
     }
-
-/*    public void saveHighscore() {
-        loadHighscore();
-        hsModel = new HighscoreModel(correctWord, playerName, gameController.getAmountWrongGuesses() + "");
-        highscoreList.add(hsModel);
-        SharedPreferences sharedPreferences = getSharedPreferences(SHAREDPREFKEY, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        Gson gson = new Gson();
-        String json = gson.toJson(highscoreList);
-        editor.putString(HIGHSCOREKEY, json);
-        editor.apply();
-    }
-
-    private void loadHighscore() {
-        SharedPreferences sharedPreferences = getSharedPreferences(SHAREDPREFKEY, Context.MODE_PRIVATE);
-        Gson gson = new Gson();
-        String json = sharedPreferences.getString(HIGHSCOREKEY, null);
-        Type type = new TypeToken<ArrayList<HighscoreModel>>() {
-        }.getType();
-        highscoreList = gson.fromJson(json, type);
-
-        if (highscoreList == null) {
-            highscoreList = new ArrayList<>();
-        }
-    }*/
 }
