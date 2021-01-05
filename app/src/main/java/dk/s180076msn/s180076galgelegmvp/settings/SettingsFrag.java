@@ -45,17 +45,18 @@ public class SettingsFrag extends Fragment implements View.OnClickListener {
         easyButton = root.findViewById(R.id.easyButton);
         mediumButton = root.findViewById(R.id.mediumButton);
         hardButton = root.findViewById(R.id.hardButton);
-        goToMenu = root.findViewById(R.id.gotoMainMenu);
+        //goToMenu = root.findViewById(R.id.gotoMainMenu);
 
         easyButton.setOnClickListener(this);
         mediumButton.setOnClickListener(this);
         hardButton.setOnClickListener(this);
-        goToMenu.setOnClickListener(this);
+        //goToMenu.setOnClickListener(this);
         return root;
     }
 
     @Override
     public void onClick(View v) {
+        f = new MainMenuFrag();
         if (v == easyButton) {
             difficultyLevel = DIFFICULTY_LEVEL_EASY;
             makeToast(difficultyLevel);
@@ -65,11 +66,9 @@ public class SettingsFrag extends Fragment implements View.OnClickListener {
         } else if (v == hardButton) {
             difficultyLevel = DIFFICULTY_LEVEL_HARD;
             makeToast(difficultyLevel);
-        } else if (v == goToMenu) {
-            f = new MainMenuFrag();
-            setFragment(f);
         }
         saveSettings();
+        setFragment(f);
     }
 
     public void makeToast(String difficultyLevel) {

@@ -10,7 +10,12 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import java.util.ArrayList;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
+
 import dk.s180076msn.s180076galgelegmvp.R;
+import dk.s180076msn.s180076galgelegmvp.SheetDataLoader.DataLoader;
 import dk.s180076msn.s180076galgelegmvp.help.HelpFrag;
 import dk.s180076msn.s180076galgelegmvp.highscore.HighscoreFrag;
 import dk.s180076msn.s180076galgelegmvp.playgame.GameFrag;
@@ -20,6 +25,7 @@ public class MainMenuFrag extends Fragment implements View.OnClickListener {
     Button playGameButton, highscoreButton, helpButton, settingsButton;
     ImageView imageView;
     Fragment f;
+    ArrayList<String> loadWords;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -37,6 +43,8 @@ public class MainMenuFrag extends Fragment implements View.OnClickListener {
         highscoreButton.setOnClickListener(this);
         helpButton.setOnClickListener(this);
         settingsButton.setOnClickListener(this);
+
+
 
         return root;
     }

@@ -41,11 +41,12 @@ public class GameFactory {
     }
 
     private void easyGame() {
-        wordList.add("dæk");
+        wordList.add("e");
+        /*wordList.add("dæk");
         wordList.add("død");
         wordList.add("bøf");
         wordList.add("damp");
-        wordList.add("drab");
+        wordList.add("drab");*/
     }
 
     private void mediumGame() {
