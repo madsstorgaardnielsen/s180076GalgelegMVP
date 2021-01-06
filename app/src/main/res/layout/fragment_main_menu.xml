@@ -31,7 +31,7 @@
             android:layout_marginTop="40dp"
             android:layout_marginLeft="40dp"
             android:layout_marginRight="40dp"
-            android:text="play hangman!" />
+            android:text="Spil hangman!" />
 
         <Button
             android:id="@+id/highscoreButton"
@@ -47,7 +47,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="40dp"
             android:layout_marginRight="40dp"
-            android:text="settings" />
+            android:text="Instillinger" />
 
         <Button
             android:layout_marginTop="25dp"
@@ -56,7 +56,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="40dp"
             android:layout_marginRight="40dp"
-            android:text="help" />
+            android:text="Hjælp" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

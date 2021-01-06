@@ -85,7 +85,6 @@ public class GamePresenter implements Subject {
 
         if (customWordlist == null) {
             customWordlist = new ArrayList<>();
-            customWordlist.add("Fejl, ingen ord valgt fra ordliste i settings.");
         }
         return customWordlist;
     }

@@ -11,18 +11,26 @@
         android:orientation="vertical">
 
         <Button
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="100dp"
             android:id="@+id/customWordlistBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Opret custom ordliste" />
+            android:text="Opret brugerdefineret ordliste" />
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:text="Du har valgt følgende ord: "
+            android:textAlignment="center"
+            android:textSize="18sp" />
         <TextView
             android:layout_marginTop="50dp"
             android:id="@+id/tvChosenWords"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text=""/>
+            android:text="Opret ordliste."
+            android:textAlignment="center"/>
     </LinearLayout>
 
 </FrameLayout>
