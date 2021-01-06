@@ -23,7 +23,7 @@ import dk.s180076msn.s180076galgelegmvp.R;
 import dk.s180076msn.s180076galgelegmvp.MainMenuFrag;
 
 public class SettingsFrag extends Fragment implements View.OnClickListener {
-    Button easyButton, mediumButton, hardButton, useCustomWords ,goToMenu;
+    Button easyButton, mediumButton, hardButton, useCustomWords, customWordListeBtn;
     ImageView imageView;
     private final String DIFFICULTY_LEVEL_EASY = "easy";
     private final String DIFFICULTY_LEVEL_MEDIUM = "medium";
@@ -31,7 +31,7 @@ public class SettingsFrag extends Fragment implements View.OnClickListener {
     String difficultyLevel = "";
     boolean isCustomList;
     CustomWordListFrag f2;
-    String[] test = null;
+    String[] customWordList = null;
     SettingDataHandler getData;
     Executor bgThread;
     Handler uiThread;
@@ -52,13 +52,13 @@ public class SettingsFrag extends Fragment implements View.OnClickListener {
         mediumButton = root.findViewById(R.id.mediumButton);
         hardButton = root.findViewById(R.id.hardButton);
         useCustomWords = root.findViewById(R.id.useCustomWordsBtn);
-        goToMenu = root.findViewById(R.id.gotoCustomWordList);
+        customWordListeBtn = root.findViewById(R.id.gotoCustomWordList);
 
         easyButton.setOnClickListener(this);
         mediumButton.setOnClickListener(this);
         hardButton.setOnClickListener(this);
         useCustomWords.setOnClickListener(this);
-        goToMenu.setOnClickListener(this);
+        customWordListeBtn.setOnClickListener(this);
         return root;
     }
 
@@ -91,17 +91,17 @@ public class SettingsFrag extends Fragment implements View.OnClickListener {
             makeToast("Svær");
             setFragment(f);
 
-        }else if (v == useCustomWords){
+        } else if (v == useCustomWords) {
             isCustomList = true;
             saveIsCustomWordList(isCustomList);
-        }
-
-        else if (v == goToMenu) {
+            makeToast("Brugerdefineret");
+            setFragment(f);
+        } else if (v == customWordListeBtn) {
             bgThread.execute(() -> {
                 try {
-                    test = getData.loadData();
+                    customWordList = getData.loadData();
                     uiThread.post(() -> {
-                        passData(f2, test);
+                        passData(f2, customWordList);
                     });
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -129,6 +129,7 @@ public class SettingsFrag extends Fragment implements View.OnClickListener {
     }
 
     String CUSTOM_WORDLIST_KEY = "customwordlistkey";
+
     public void saveIsCustomWordList(boolean isCustomList) {
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences(CUSTOM_WORDLIST_KEY, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -137,6 +138,7 @@ public class SettingsFrag extends Fragment implements View.OnClickListener {
     }
 
     String DIFFICULTY_SETTING_KEY = "difficultysettingskey";
+
     public void saveDifficultySettings() {
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences(DIFFICULTY_SETTING_KEY, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();

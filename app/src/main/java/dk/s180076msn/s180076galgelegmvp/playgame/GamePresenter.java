@@ -75,21 +75,6 @@ public class GamePresenter implements Subject {
     }
 
     String CUSTOM_WORDS_KEY = "wordlistkey";
-    //String CUSTOM_WORDLIST_KEY = "wordlistkey";
-
-/*    private ArrayList<String> loadCustomWordList() {
-        SharedPreferences sharedPreferences = context.getSharedPreferences(CUSTOM_WORDS_KEY, Context.MODE_PRIVATE);
-        Gson gson = new Gson();
-        String json = sharedPreferences.getString(CUSTOM_WORDS_KEY, "fejl");
-        Type type = new TypeToken<ArrayList<SettingsModel>>() {
-        }.getType();
-        customWordlist = gson.fromJson(json, type);
-
-        if (customWordlist == null) {
-            customWordlist = new ArrayList<>();
-        }
-        return customWordlist;
-    }*/
 
     private ArrayList<String> loadCustomWordList() {
         SharedPreferences sharedPreferences = context.getSharedPreferences(CUSTOM_WORDS_KEY, Context.MODE_PRIVATE);
@@ -100,6 +85,7 @@ public class GamePresenter implements Subject {
 
         if (customWordlist == null) {
             customWordlist = new ArrayList<>();
+            customWordlist.add("Fejl, ingen ord valgt fra ordliste i settings.");
         }
         return customWordlist;
     }
