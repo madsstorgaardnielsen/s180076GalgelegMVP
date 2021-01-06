@@ -1,7 +1,9 @@
 package dk.s180076msn.s180076galgelegmvp.playgame;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -12,6 +14,7 @@ import java.util.Arrays;
 
 import dk.s180076msn.s180076galgelegmvp.gamefactory.Game;
 import dk.s180076msn.s180076galgelegmvp.gamefactory.GameFactory;
+import dk.s180076msn.s180076galgelegmvp.highscore.HighscoreModel;
 import dk.s180076msn.s180076galgelegmvp.settings.SettingsModel;
 
 public class GamePresenter implements Subject {
@@ -20,10 +23,18 @@ public class GamePresenter implements Subject {
     private GameFactory gf;
     private Game g;
     private ArrayList<Observer> observers;
-    private final String SETTINGSKEY = "settingskey";
+    private final String SETTINGSKEY = "difficultysettingskey";
     private final String SHAREDPREFKEY = "shared_preferences";
+
+
     private ArrayList<SettingsModel> difficultySettings;
+    ArrayList<String> customWordlist;
+
+
+    private boolean customWordlistSettings;
     private Context context;
+    String CUSTOM_WORDLIST_SETTING_KEY = "iscustomwordlist";
+    String CUSTOM_WORD_LIST_KEY = "wordlistkey";
 
     public GamePresenter(Context context) {
         this.context = context;
@@ -35,8 +46,14 @@ public class GamePresenter implements Subject {
     }
 
     public void initGame() {
-        sm.setDifficultyLevel(loadSettings());
-        g = gf.makeGame(sm.getDifficultyLevel());
+        sm.setDifficultyLevel(loadDifficultySettings());
+        if (isWordlistCustom()) {
+            ArrayList<String> custom;
+            custom = loadCustomWordList();
+            g = gf.makeCustomGame(sm.getDifficultyLevel(), custom);
+        } else {
+            g = gf.makeGame(sm.getDifficultyLevel());
+        }
 
         setCorrectWord(g.getCorrectWord());
         setAmountWrongGuess(g.getAmountWrongGuess());
@@ -48,19 +65,52 @@ public class GamePresenter implements Subject {
         clearUsedLetters();
     }
 
-    private String loadSettings() {
-        SharedPreferences sharedPreferences = context.getSharedPreferences(SHAREDPREFKEY, Context.MODE_PRIVATE);
+    String IS_CUSTOM_WORDLIST_KEY = "customwordlistkey";
+
+    private boolean isWordlistCustom() {
+        boolean setting;
+        SharedPreferences sharedPreferences = context.getSharedPreferences(IS_CUSTOM_WORDLIST_KEY, Context.MODE_PRIVATE);
+        setting = sharedPreferences.getBoolean(CUSTOM_WORDLIST_SETTING_KEY, false);
+        return setting;
+    }
+
+    String CUSTOM_WORDS_KEY = "wordlistkey";
+    //String CUSTOM_WORDLIST_KEY = "wordlistkey";
+
+/*    private ArrayList<String> loadCustomWordList() {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(CUSTOM_WORDS_KEY, Context.MODE_PRIVATE);
         Gson gson = new Gson();
-        String json = sharedPreferences.getString(SETTINGSKEY, null);
+        String json = sharedPreferences.getString(CUSTOM_WORDS_KEY, "fejl");
         Type type = new TypeToken<ArrayList<SettingsModel>>() {
         }.getType();
-        difficultySettings = gson.fromJson(json, type);
+        customWordlist = gson.fromJson(json, type);
 
-        if (difficultySettings == null) {
-            difficultySettings = new ArrayList<>();
+        if (customWordlist == null) {
+            customWordlist = new ArrayList<>();
         }
-        return difficultySettings.get(0).getDifficultyLevel();
+        return customWordlist;
+    }*/
+
+    private ArrayList<String> loadCustomWordList() {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(CUSTOM_WORDS_KEY, Context.MODE_PRIVATE);
+        Gson gson = new Gson();
+        String json = sharedPreferences.getString(CUSTOM_WORDS_KEY, "fejl");
+        Type type = new TypeToken<ArrayList<String>>() {}.getType();
+        customWordlist = gson.fromJson(json, type);
+
+        if (customWordlist == null) {
+            customWordlist = new ArrayList<>();
+        }
+        return customWordlist;
     }
+
+
+    String DIFFICULTY_SETTING_KEY = "difficultysettingskey";
+    private String loadDifficultySettings() {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(DIFFICULTY_SETTING_KEY, Context.MODE_PRIVATE);
+        return sharedPreferences.getString(DIFFICULTY_SETTING_KEY, "easy");
+    }
+
 
     public boolean guessLetter(String letter) {
         addUsedLetter(letter.toLowerCase());

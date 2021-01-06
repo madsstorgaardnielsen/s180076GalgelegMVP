@@ -1,7 +1,10 @@
 package dk.s180076msn.s180076galgelegmvp.gamefactory;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
+
+import dk.s180076msn.s180076galgelegmvp.SheetDataLoader.DataLoader;
 
 
 public class GameFactory {
@@ -10,6 +13,23 @@ public class GameFactory {
     private boolean isLost = false;
     private boolean isWon = false;
     private String correctWord;
+
+    public Game makeCustomGame(String difficultyLevel, ArrayList<String> customWordList) {
+
+        switch (difficultyLevel) {
+            case "easy":
+                startNewCustomGame(customWordList);
+                return new EasyGame(customWordList, amountWrongGuess, isLost, isWon, correctWord);
+            case "medium":
+                startNewCustomGame(customWordList);
+                return new MediumGame(customWordList, amountWrongGuess, isLost, isWon, correctWord);
+            case "hard":
+                startNewCustomGame(customWordList);
+                return new HardGame(customWordList, amountWrongGuess, isLost, isWon, correctWord);
+            default:
+                return null;
+        }
+    }
 
     public Game makeGame(String difficultyLevel) {
         wordList = new ArrayList<>();
@@ -32,6 +52,14 @@ public class GameFactory {
                 return null;
         }
     }
+    private void startNewCustomGame(ArrayList<String> customWordList) {
+        //TODO pr'v at print wordlist og se hvad der foregår
+        System.out.println(correctWord);
+        correctWord = customWordList.get(new Random().nextInt(customWordList.size()));
+        amountWrongGuess = 0;
+        isLost = false;
+        isWon = false;
+    }
 
     private void startNewGame() {
         correctWord = wordList.get(new Random().nextInt(wordList.size()));
@@ -41,7 +69,7 @@ public class GameFactory {
     }
 
     private void easyGame() {
-        wordList.add("e");
+        wordList.add("a");
         /*wordList.add("dæk");
         wordList.add("død");
         wordList.add("bøf");
@@ -50,18 +78,20 @@ public class GameFactory {
     }
 
     private void mediumGame() {
-        wordList.add("kager");
+        wordList.add("b");
+        /*wordList.add("kager");
         wordList.add("penge");
         wordList.add("prag");
         wordList.add("hunde");
-        wordList.add("fodder");
+        wordList.add("fodder");*/
     }
 
     public void hardGame() {
-        wordList.add("kastanjerne");
+        wordList.add("c");
+        /*wordList.add("kastanjerne");
         wordList.add("kolibrierne");
         wordList.add("musvågen");
         wordList.add("elefanter");
-        wordList.add("guitaren");
+        wordList.add("guitaren");*/
     }
 }

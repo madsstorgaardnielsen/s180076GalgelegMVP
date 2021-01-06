@@ -26,8 +26,8 @@ public class DataLoader {
         return words;
     }
 
-    public ArrayList<String> getAllWords(String difficulty) throws IOException {
-        parseData(difficulty, true);
+    public ArrayList<String> getAllWords() throws IOException {
+        parseData("easy", true);
         return words;
     }
 

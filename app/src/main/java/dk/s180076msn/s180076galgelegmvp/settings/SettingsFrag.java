@@ -6,6 +6,7 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.os.Handler;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,25 +15,30 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
-
-import java.util.ArrayList;
+import java.io.IOException;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 import dk.s180076msn.s180076galgelegmvp.R;
 import dk.s180076msn.s180076galgelegmvp.MainMenuFrag;
 
 public class SettingsFrag extends Fragment implements View.OnClickListener {
-    Button easyButton, mediumButton, hardButton, goToMenu;
+    Button easyButton, mediumButton, hardButton, useCustomWords ,goToMenu;
     ImageView imageView;
     private final String DIFFICULTY_LEVEL_EASY = "easy";
     private final String DIFFICULTY_LEVEL_MEDIUM = "medium";
     private final String DIFFICULTY_LEVEL_HARD = "hard";
     String difficultyLevel = "";
-    SettingsModel settings;
-    ArrayList<SettingsModel> difficultySettings;
+    boolean isCustomList;
+    CustomWordListFrag f2;
+    String[] test = null;
+    SettingDataHandler getData;
+    Executor bgThread;
+    Handler uiThread;
 
     String SHAREDPREFKEY = "shared_preferences";
-    String SETTINGSKEY = "settingskey";
+    String DIFFICULTYSETTINGSKEY = "difficultysettingskey";
+    String CUSTOM_WORDLIST_SETTING_KEY = "iscustomwordlist";
 
     Fragment f;
 
@@ -45,30 +51,64 @@ public class SettingsFrag extends Fragment implements View.OnClickListener {
         easyButton = root.findViewById(R.id.easyButton);
         mediumButton = root.findViewById(R.id.mediumButton);
         hardButton = root.findViewById(R.id.hardButton);
-        //goToMenu = root.findViewById(R.id.gotoMainMenu);
+        useCustomWords = root.findViewById(R.id.useCustomWordsBtn);
+        goToMenu = root.findViewById(R.id.gotoCustomWordList);
 
         easyButton.setOnClickListener(this);
         mediumButton.setOnClickListener(this);
         hardButton.setOnClickListener(this);
-        //goToMenu.setOnClickListener(this);
+        useCustomWords.setOnClickListener(this);
+        goToMenu.setOnClickListener(this);
         return root;
     }
 
     @Override
     public void onClick(View v) {
         f = new MainMenuFrag();
+        f2 = new CustomWordListFrag();
+        getData = new SettingDataHandler();
+        uiThread = new Handler();
+        bgThread = Executors.newSingleThreadExecutor();
         if (v == easyButton) {
             difficultyLevel = DIFFICULTY_LEVEL_EASY;
-            makeToast(difficultyLevel);
+            isCustomList = false;
+            saveIsCustomWordList(isCustomList);
+            saveDifficultySettings();
+            makeToast("Nem");
+            setFragment(f);
         } else if (v == mediumButton) {
             difficultyLevel = DIFFICULTY_LEVEL_MEDIUM;
-            makeToast(difficultyLevel);
+            isCustomList = false;
+            saveIsCustomWordList(isCustomList);
+            saveDifficultySettings();
+            makeToast("Mellem");
+            setFragment(f);
         } else if (v == hardButton) {
             difficultyLevel = DIFFICULTY_LEVEL_HARD;
-            makeToast(difficultyLevel);
+            isCustomList = false;
+            saveIsCustomWordList(isCustomList);
+            saveDifficultySettings();
+            makeToast("Svær");
+            setFragment(f);
+
+        }else if (v == useCustomWords){
+            isCustomList = true;
+            saveIsCustomWordList(isCustomList);
         }
-        saveSettings();
-        setFragment(f);
+
+        else if (v == goToMenu) {
+            bgThread.execute(() -> {
+                try {
+                    test = getData.loadData();
+                    uiThread.post(() -> {
+                        passData(f2, test);
+                    });
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            });
+        }
+
     }
 
     public void makeToast(String difficultyLevel) {
@@ -77,16 +117,30 @@ public class SettingsFrag extends Fragment implements View.OnClickListener {
         toast.show();
     }
 
-    public void saveSettings() {
-        difficultySettings = new ArrayList<>();
-        difficultySettings.clear();
-        settings = new SettingsModel(difficultyLevel);
-        difficultySettings.add(settings);
-        SharedPreferences sharedPreferences = getActivity().getSharedPreferences(SHAREDPREFKEY, Context.MODE_PRIVATE);
+    private void passData(CustomWordListFrag f2, String[] words) {
+        Bundle args = new Bundle();
+        args.putStringArray("stringarraykey", words);
+        f2.setArguments(args);
+        getFragmentManager()
+                .beginTransaction()
+                .replace(R.id.MainActivityFL, f2)
+                .addToBackStack(null)
+                .commit();
+    }
+
+    String CUSTOM_WORDLIST_KEY = "customwordlistkey";
+    public void saveIsCustomWordList(boolean isCustomList) {
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences(CUSTOM_WORDLIST_KEY, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        Gson gson = new Gson();
-        String json = gson.toJson(difficultySettings);
-        editor.putString(SETTINGSKEY, json);
+        editor.putBoolean(CUSTOM_WORDLIST_SETTING_KEY, isCustomList);
+        editor.apply();
+    }
+
+    String DIFFICULTY_SETTING_KEY = "difficultysettingskey";
+    public void saveDifficultySettings() {
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences(DIFFICULTY_SETTING_KEY, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(DIFFICULTY_SETTING_KEY, difficultyLevel);
         editor.apply();
     }
 

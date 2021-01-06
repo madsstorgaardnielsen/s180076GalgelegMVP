@@ -20,6 +20,7 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 
@@ -54,7 +55,9 @@ public class GameFrag extends Fragment implements Observer, View.OnClickListener
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_game, container, false);
+
         gp = new GamePresenter(getActivity());
+
 
         wf = new WonFrag(gp);
         lf = new LostFrag(gp);

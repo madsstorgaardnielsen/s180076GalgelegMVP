@@ -8,7 +8,7 @@ public class DataLoadTest {
         System.out.println(DataLoader.get().getWords("easy"));
         System.out.println(DataLoader.get().getWords("medium"));
         System.out.println(DataLoader.get().getWords("hard"));
-        System.out.println(DataLoader.get().getAllWords("easy"));
+        //System.out.println(DataLoader.get().getAllWords("easy"));
 
     }
 }

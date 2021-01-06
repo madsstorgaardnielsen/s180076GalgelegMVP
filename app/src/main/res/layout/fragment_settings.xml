@@ -19,8 +19,16 @@
             tools:src="@drawable/logo"
             android:layout_gravity="center_horizontal"/>
 
-        <Button
+        <TextView
             android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Vælg sværhedsgrad"
+            android:textAlignment="center"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+        <Button
+
             android:id="@+id/easyButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -37,6 +45,27 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="svær" />
+
+        <Button
+            android:id="@+id/useCustomWordsBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Brugerdefinerede ord"
+            android:layout_marginBottom="50dp"/>
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Opret ordliste ud fra google sheet"
+            android:textAlignment="center"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+        <Button
+            android:id="@+id/gotoCustomWordList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Opret brugerdefineret ordliste" />
 
     </LinearLayout>
 
