@@ -65,6 +65,7 @@ public class HighscoreFrag extends Fragment implements AbsListView.OnScrollListe
                 if (scrollState == SCROLL_STATE_TOUCH_SCROLL) {
                     isRightEnabled = false;
                     isMidEnabled = false;
+
                 } else if (scrollState == SCROLL_STATE_IDLE) {
                     isRightEnabled = true;
                     isMidEnabled = true;
@@ -87,6 +88,7 @@ public class HighscoreFrag extends Fragment implements AbsListView.OnScrollListe
                 if (scrollState == SCROLL_STATE_TOUCH_SCROLL) {
                     isLeftEnabled = false;
                     isRightEnabled = false;
+
                 } else if (scrollState == SCROLL_STATE_IDLE) {
                     isLeftEnabled = true;
                     isRightEnabled = true;
