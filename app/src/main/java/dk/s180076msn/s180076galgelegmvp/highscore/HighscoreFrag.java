@@ -33,7 +33,6 @@ public class HighscoreFrag extends Fragment implements AbsListView.OnScrollListe
     ArrayList<String> names;
     ArrayList<String> correctWord;
     ArrayList<String> wrongGuesses;
-    int posY;
     boolean isLeftEnabled = true;
     boolean isRightEnabled = true;
     boolean isMidEnabled = true;
