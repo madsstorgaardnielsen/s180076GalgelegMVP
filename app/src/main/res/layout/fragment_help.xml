@@ -9,7 +9,7 @@
         android:id="@+id/textView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Help menu"
+        android:text="Hjælp"
         android:textAlignment="center"
         android:textSize="30sp"
         android:textStyle="bold"/>
@@ -30,7 +30,7 @@
             android:id="@+id/tv1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Inden spillet startes, kan man under settings i menuen vælge imellem 3 sværhedsgrader: nem, mellem og svær. denne instilling gemmes og vil være sat indtil man enten skruer op eller ned" />
+            android:text="Under indstillinger i menuen kan man vælge imellem 4 sværhedsgrader: nem, mellem, svær og brugerdefineret. Den brugerdefinerede fungerer ved at spillere selv vælger ord fra en liste. Denne liste ligger online, og kan ændres." />
 
         <TextView
             android:layout_marginTop="25dp"
