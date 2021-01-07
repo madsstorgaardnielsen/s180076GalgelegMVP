@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class SettingsModel {
     String difficultyLevel = "";
-    ArrayList<String>  customWordArr;
+    ArrayList<String> customWordArr;
     boolean isCustomWordlist;
 
     public SettingsModel(String difficultyLevel) {

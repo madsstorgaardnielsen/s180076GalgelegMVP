@@ -32,8 +32,6 @@ public class WonFrag extends Fragment implements Observer, View.OnClickListener 
     Subject sgp;
     int amountWrongGuess;
     String playerName;
-    MediaPlayer mp;
-    Context context;
     Animation anim;
 
     public WonFrag(Subject sgp) {
@@ -45,11 +43,10 @@ public class WonFrag extends Fragment implements Observer, View.OnClickListener 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_won, container, false);
         final KonfettiView konfettiView = root.findViewById(R.id.viewKonfetti);
-        anim =  AnimationUtils.loadAnimation(getActivity(),R.anim.winning);
+        anim = AnimationUtils.loadAnimation(getActivity(), R.anim.winning);
         winnerNameTextView = root.findViewById(R.id.winnerNameTextView);
         amountWrongGuessTextView = root.findViewById(R.id.winnerStatTextView);
         gotoMainMenu = root.findViewById(R.id.gotoMainMenu);
-
 
 
         wonGameImg = root.findViewById(R.id.winnerImageView);
@@ -66,7 +63,6 @@ public class WonFrag extends Fragment implements Observer, View.OnClickListener 
                 .addSizes(new Size(12, 5f))
                 .setPosition(-50f, konfettiView.getWidth() + 1250f, -50f, -50f)
                 .streamFor(500, 5000L);
-
 
 
         winnerNameTextView.setText("Tillykke " + playerName + ", du vandt!");

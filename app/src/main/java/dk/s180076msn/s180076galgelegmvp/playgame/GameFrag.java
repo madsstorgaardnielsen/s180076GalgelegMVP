@@ -19,31 +19,25 @@ import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 import dk.s180076msn.s180076galgelegmvp.R;
 import dk.s180076msn.s180076galgelegmvp.highscore.HighscoreModel;
-import dk.s180076msn.s180076galgelegmvp.settings.CustomWordListFrag;
-import dk.s180076msn.s180076galgelegmvp.settings.SettingsModel;
 
 
-public class GameFrag extends Fragment implements Observer, View.OnClickListener {
+public class GameFrag extends Fragment implements Observer {
     private Fragment wf;
     private Fragment lf;
     private GamePresenter gp;
     private Subject sgp;
     private HighscoreModel hm;
     private ImageView progressImage;
-    private Button doGuessButton;
     private TextView hiddenWordProgressTextView, usedLettersTextView, amountWrongGuessTextView;
-    private EditText guessEditText;
     private ArrayList<HighscoreModel> highscores;
     GridView gridView;
 
@@ -63,8 +57,6 @@ public class GameFrag extends Fragment implements Observer, View.OnClickListener
         View root = inflater.inflate(R.layout.fragment_game, container, false);
 
         gp = new GamePresenter(getActivity());
-
-
         wf = new WonFrag(gp);
         lf = new LostFrag(gp);
 
@@ -74,9 +66,7 @@ public class GameFrag extends Fragment implements Observer, View.OnClickListener
         progressImage = root.findViewById(R.id.imageView);
         progressImage.setImageResource(R.drawable.forkert0);
 
-        //doGuessButton = root.findViewById(R.id.tryGuessButton);
         hiddenWordProgressTextView = root.findViewById(R.id.hiddenWordTextView);
-        //guessEditText = root.findViewById(R.id.guessEditText);
 
         createGridview(root);
 
@@ -88,22 +78,7 @@ public class GameFrag extends Fragment implements Observer, View.OnClickListener
         hiddenWordProgressTextView.setText(gp.getWordProgress());
 
         getName();
-
-        //doGuessButton.setOnClickListener(this);
         return root;
-    }
-
-    @Override
-    public void onClick(View v) {
-/*        String guess = guessEditText.getText().toString();
-        if (gp.guessLetter(guess)) {
-            hiddenWordProgressTextView.setText(gp.getWordProgress());
-        } else {
-            amountWrongGuessTextView.setText(gp.getAmountWrongGuess() + " " + amountWrongStr);
-        }
-        usedLettersTextView.setText(gp.getUsedLetters());
-        guessEditText.setText("");
-        isGameOver();*/
     }
 
     public void createGridview(View root) {

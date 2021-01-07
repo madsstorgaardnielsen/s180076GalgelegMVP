@@ -6,12 +6,12 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
 
-//TODO find ud af i hvilken klasse dataen skal hentes, brug evt flertrådet
 public class DataLoader {
     final String SHEET_ID = "1Ye6rFRlVKmxII9rKiQTt2QHWiF1x3P8pQ-RoYPIBy2A";
     private final String URL = "https://docs.google.com/spreadsheets/d/" + SHEET_ID + "/export?format=csv&id=" + SHEET_ID;
     private static DataLoader instance;
-    ArrayList<String> words = new ArrayList<>();;
+    ArrayList<String> words = new ArrayList<>();
+    ;
 
     public static DataLoader get() {
         if (instance == null) {
@@ -21,7 +21,6 @@ public class DataLoader {
     }
 
     public ArrayList<String> getWords(String difficulty) throws IOException {
-
         parseData(difficulty, false);
         return words;
     }

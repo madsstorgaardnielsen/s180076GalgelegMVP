@@ -25,7 +25,6 @@ public class MainMenuFrag extends Fragment implements View.OnClickListener {
     Button playGameButton, highscoreButton, helpButton, settingsButton;
     ImageView imageView;
     Fragment f;
-    ArrayList<String> loadWords;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -43,8 +42,6 @@ public class MainMenuFrag extends Fragment implements View.OnClickListener {
         highscoreButton.setOnClickListener(this);
         helpButton.setOnClickListener(this);
         settingsButton.setOnClickListener(this);
-
-
 
         return root;
     }

@@ -30,32 +30,23 @@ import dk.s180076msn.s180076galgelegmvp.MainMenuFrag;
 
 public class SettingsFrag extends Fragment implements View.OnClickListener {
     Button easyButton, mediumButton, hardButton, useCustomWords;
-    //Button customWordListeBtn;
     ImageView imageView;
     private final String DIFFICULTY_LEVEL_EASY = "easy";
     private final String DIFFICULTY_LEVEL_MEDIUM = "medium";
     private final String DIFFICULTY_LEVEL_HARD = "hard";
     String difficultyLevel = "";
     boolean isCustomList;
-    CustomWordListFrag f2;
     String[] customWordListOG = null;
     SettingDataHandler getData;
     Executor bgThread;
     Handler uiThread;
-
-    //
     Button mOrder;
     TextView mItemSelected;
     String[] listItems;
     boolean[] checkedItems;
     ArrayList<Integer> mUserItems = new ArrayList<>();
     ArrayList<String> customWordList;
-    //
-
-    String SHAREDPREFKEY = "shared_preferences";
-    String DIFFICULTYSETTINGSKEY = "difficultysettingskey";
     String CUSTOM_WORDLIST_SETTING_KEY = "iscustomwordlist";
-
     Fragment f;
 
     @Override
@@ -68,21 +59,14 @@ public class SettingsFrag extends Fragment implements View.OnClickListener {
         mediumButton = root.findViewById(R.id.mediumButton);
         hardButton = root.findViewById(R.id.hardButton);
         useCustomWords = root.findViewById(R.id.useCustomWordsBtn);
-        //customWordListeBtn = root.findViewById(R.id.gotoCustomWordList);
 
-        //
-        //listItems = getArguments().getStringArray("stringarraykey");
-        //mOrder = (Button) root.findViewById(R.id.customWordlistBtn);
         mItemSelected = (TextView) root.findViewById(R.id.tvChosenWords);
         mOrder = root.findViewById(R.id.gotoCustomWordList);
-        //checkedItems = new boolean[listItems.length];
-        //
 
         easyButton.setOnClickListener(this);
         mediumButton.setOnClickListener(this);
         hardButton.setOnClickListener(this);
         useCustomWords.setOnClickListener(this);
-        //customWordListeBtn.setOnClickListener(this);
         mOrder.setOnClickListener(this);
         return root;
     }
@@ -90,7 +74,6 @@ public class SettingsFrag extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         f = new MainMenuFrag();
-        f2 = new CustomWordListFrag();
         getData = new SettingDataHandler();
         uiThread = new Handler();
         bgThread = Executors.newSingleThreadExecutor();
@@ -126,7 +109,6 @@ public class SettingsFrag extends Fragment implements View.OnClickListener {
                 try {
                     customWordListOG = getData.loadData();
                     uiThread.post(() -> {
-                        //passData(f2, customWordListOG);
                         listItems = customWordListOG;
                         checkedItems = new boolean[listItems.length];
                         AlertDialog.Builder mBuilder = new AlertDialog.Builder(getActivity());
@@ -156,7 +138,6 @@ public class SettingsFrag extends Fragment implements View.OnClickListener {
                                     }
                                 }
                                 System.out.println(customWordList);
-                                //mItemSelected.setText(item);
                                 makeCustomWordlistToast();
                                 saveCustomWordlist();
                             }
@@ -191,17 +172,6 @@ public class SettingsFrag extends Fragment implements View.OnClickListener {
         Toast toast = Toast.makeText(getActivity(), "Ordliste gemt", Toast.LENGTH_LONG);
         toast.setGravity(Gravity.CENTER, 0, -500);
         toast.show();
-    }
-
-    private void passData(CustomWordListFrag f2, String[] words) {
-        Bundle args = new Bundle();
-        args.putStringArray("stringarraykey", words);
-        f2.setArguments(args);
-        getFragmentManager()
-                .beginTransaction()
-                .replace(R.id.MainActivityFL, f2)
-                .addToBackStack(null)
-                .commit();
     }
 
     String CUSTOM_WORD_LIST_KEY = "wordlistkey";

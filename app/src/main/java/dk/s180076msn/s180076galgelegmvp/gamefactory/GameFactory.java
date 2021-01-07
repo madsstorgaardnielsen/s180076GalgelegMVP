@@ -1,11 +1,7 @@
 package dk.s180076msn.s180076galgelegmvp.gamefactory;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
-
-import dk.s180076msn.s180076galgelegmvp.SheetDataLoader.DataLoader;
-
 
 public class GameFactory {
     private ArrayList<String> wordList;
@@ -69,29 +65,26 @@ public class GameFactory {
     }
 
     private void easyGame() {
-        wordList.add("a");
-        /*wordList.add("dæk");
+        wordList.add("dæk");
         wordList.add("død");
         wordList.add("bøf");
         wordList.add("damp");
-        wordList.add("drab");*/
+        wordList.add("drab");
     }
 
     private void mediumGame() {
-        wordList.add("b");
-        /*wordList.add("kager");
+        wordList.add("kager");
         wordList.add("penge");
         wordList.add("prag");
         wordList.add("hunde");
-        wordList.add("fodder");*/
+        wordList.add("fodder");
     }
 
     public void hardGame() {
-        wordList.add("c");
-        /*wordList.add("kastanjerne");
+        wordList.add("kastanjerne");
         wordList.add("kolibrierne");
         wordList.add("musvågen");
         wordList.add("elefanter");
-        wordList.add("guitaren");*/
+        wordList.add("guitaren");
     }
 }

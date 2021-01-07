@@ -23,18 +23,9 @@ public class GamePresenter implements Subject {
     private GameFactory gf;
     private Game g;
     private ArrayList<Observer> observers;
-    private final String SETTINGSKEY = "difficultysettingskey";
-    private final String SHAREDPREFKEY = "shared_preferences";
-
-
-    private ArrayList<SettingsModel> difficultySettings;
     ArrayList<String> customWordlist;
-
-
-    private boolean customWordlistSettings;
     private Context context;
     String CUSTOM_WORDLIST_SETTING_KEY = "iscustomwordlist";
-    String CUSTOM_WORD_LIST_KEY = "wordlistkey";
 
     public GamePresenter(Context context) {
         this.context = context;
@@ -80,7 +71,8 @@ public class GamePresenter implements Subject {
         SharedPreferences sharedPreferences = context.getSharedPreferences(CUSTOM_WORDS_KEY, Context.MODE_PRIVATE);
         Gson gson = new Gson();
         String json = sharedPreferences.getString(CUSTOM_WORDS_KEY, "fejl");
-        Type type = new TypeToken<ArrayList<String>>() {}.getType();
+        Type type = new TypeToken<ArrayList<String>>() {
+        }.getType();
         customWordlist = gson.fromJson(json, type);
 
         if (customWordlist == null) {
@@ -91,6 +83,7 @@ public class GamePresenter implements Subject {
 
 
     String DIFFICULTY_SETTING_KEY = "difficultysettingskey";
+
     private String loadDifficultySettings() {
         SharedPreferences sharedPreferences = context.getSharedPreferences(DIFFICULTY_SETTING_KEY, Context.MODE_PRIVATE);
         return sharedPreferences.getString(DIFFICULTY_SETTING_KEY, "easy");
