@@ -1,6 +1,8 @@
 package dk.s180076msn.s180076galgelegmvp.settings;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
@@ -13,7 +15,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.gson.Gson;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -22,10 +27,10 @@ import java.util.concurrent.Executors;
 
 import dk.s180076msn.s180076galgelegmvp.R;
 import dk.s180076msn.s180076galgelegmvp.MainMenuFrag;
-import dk.s180076msn.s180076galgelegmvp.playgame.GamePresenter;
 
 public class SettingsFrag extends Fragment implements View.OnClickListener {
-    Button easyButton, mediumButton, hardButton, useCustomWords, customWordListeBtn;
+    Button easyButton, mediumButton, hardButton, useCustomWords;
+    //Button customWordListeBtn;
     ImageView imageView;
     private final String DIFFICULTY_LEVEL_EASY = "easy";
     private final String DIFFICULTY_LEVEL_MEDIUM = "medium";
@@ -33,10 +38,19 @@ public class SettingsFrag extends Fragment implements View.OnClickListener {
     String difficultyLevel = "";
     boolean isCustomList;
     CustomWordListFrag f2;
-    String[] customWordList = null;
+    String[] customWordListOG = null;
     SettingDataHandler getData;
     Executor bgThread;
     Handler uiThread;
+
+    //
+    Button mOrder;
+    TextView mItemSelected;
+    String[] listItems;
+    boolean[] checkedItems;
+    ArrayList<Integer> mUserItems = new ArrayList<>();
+    ArrayList<String> customWordList;
+    //
 
     String SHAREDPREFKEY = "shared_preferences";
     String DIFFICULTYSETTINGSKEY = "difficultysettingskey";
@@ -54,13 +68,22 @@ public class SettingsFrag extends Fragment implements View.OnClickListener {
         mediumButton = root.findViewById(R.id.mediumButton);
         hardButton = root.findViewById(R.id.hardButton);
         useCustomWords = root.findViewById(R.id.useCustomWordsBtn);
-        customWordListeBtn = root.findViewById(R.id.gotoCustomWordList);
+        //customWordListeBtn = root.findViewById(R.id.gotoCustomWordList);
+
+        //
+        //listItems = getArguments().getStringArray("stringarraykey");
+        //mOrder = (Button) root.findViewById(R.id.customWordlistBtn);
+        mItemSelected = (TextView) root.findViewById(R.id.tvChosenWords);
+        mOrder = root.findViewById(R.id.gotoCustomWordList);
+        //checkedItems = new boolean[listItems.length];
+        //
 
         easyButton.setOnClickListener(this);
         mediumButton.setOnClickListener(this);
         hardButton.setOnClickListener(this);
         useCustomWords.setOnClickListener(this);
-        customWordListeBtn.setOnClickListener(this);
+        //customWordListeBtn.setOnClickListener(this);
+        mOrder.setOnClickListener(this);
         return root;
     }
 
@@ -98,12 +121,57 @@ public class SettingsFrag extends Fragment implements View.OnClickListener {
             saveIsCustomWordList(isCustomList);
             makeToast("Brugerdefineret");
             setFragment(f);
-        } else if (v == customWordListeBtn) {
+        } else if (v == mOrder) {
             bgThread.execute(() -> {
                 try {
-                    customWordList = getData.loadData();
+                    customWordListOG = getData.loadData();
                     uiThread.post(() -> {
-                        passData(f2, customWordList);
+                        //passData(f2, customWordListOG);
+                        listItems = customWordListOG;
+                        checkedItems = new boolean[listItems.length];
+                        AlertDialog.Builder mBuilder = new AlertDialog.Builder(getActivity());
+                        mBuilder.setTitle("Vælg ord");
+                        mBuilder.setMultiChoiceItems(listItems, checkedItems, new DialogInterface.OnMultiChoiceClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int position, boolean isChecked) {
+                                if (isChecked) {
+                                    mUserItems.add(position);
+                                } else {
+                                    mUserItems.remove((Integer.valueOf(position)));
+                                }
+                            }
+                        });
+
+                        mBuilder.setCancelable(false);
+                        mBuilder.setPositiveButton("Gem", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int which) {
+                                customWordList = new ArrayList<>();
+                                String item = "";
+                                for (int i = 0; i < mUserItems.size(); i++) {
+                                    item = item + listItems[mUserItems.get(i)];
+                                    customWordList.add(listItems[mUserItems.get(i)]);
+                                    if (i != mUserItems.size() - 1) {
+                                        item = item + ", ";
+                                    }
+                                }
+                                System.out.println(customWordList);
+                                //mItemSelected.setText(item);
+                                makeCustomWordlistToast();
+                                saveCustomWordlist();
+                            }
+                        });
+
+                        mBuilder.setNegativeButton("Fortryd", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
+                            }
+                        });
+                        AlertDialog mDialog = mBuilder.create();
+                        mDialog.show();
+
+
                     });
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -119,6 +187,12 @@ public class SettingsFrag extends Fragment implements View.OnClickListener {
         toast.show();
     }
 
+    public void makeCustomWordlistToast() {
+        Toast toast = Toast.makeText(getActivity(), "Ordliste gemt", Toast.LENGTH_LONG);
+        toast.setGravity(Gravity.CENTER, 0, -500);
+        toast.show();
+    }
+
     private void passData(CustomWordListFrag f2, String[] words) {
         Bundle args = new Bundle();
         args.putStringArray("stringarraykey", words);
@@ -128,6 +202,17 @@ public class SettingsFrag extends Fragment implements View.OnClickListener {
                 .replace(R.id.MainActivityFL, f2)
                 .addToBackStack(null)
                 .commit();
+    }
+
+    String CUSTOM_WORD_LIST_KEY = "wordlistkey";
+
+    public void saveCustomWordlist() {
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences(CUSTOM_WORD_LIST_KEY, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(customWordList);
+        editor.putString(CUSTOM_WORD_LIST_KEY, json);
+        editor.apply();
     }
 
     String CUSTOM_WORDLIST_KEY = "customwordlistkey";
