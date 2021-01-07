@@ -19,10 +19,25 @@
         android:orientation="horizontal">
 
         <ListView
-            android:id="@+id/ListView"
+            android:id="@+id/ListView1"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_marginTop="50dp" />
+            android:layout_marginTop="50dp"
+            android:layout_weight="0.30"
+            android:scrollbars="none"/>
+        <ListView
+            android:id="@+id/ListView2"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginTop="50dp"
+            android:layout_weight="0.25"
+            android:scrollbars="none"/>
+        <ListView
+            android:id="@+id/ListView3"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginTop="50dp"
+            android:layout_weight="0.33"/>
     </LinearLayout>
 
 </FrameLayout>

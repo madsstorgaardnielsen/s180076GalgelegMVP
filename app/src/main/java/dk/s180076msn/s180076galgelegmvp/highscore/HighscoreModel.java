@@ -15,6 +15,14 @@ public class HighscoreModel {
         this.amountWrongGuess = amountWrongGuess;
     }
 
+    public String getPlayerName() {
+        return playerName;
+    }
+
+    public String getCorrectWord() {
+        return correctWord;
+    }
+
     public String toString() {
         if (amountWrongGuess == 0) {
             return playerName + " havde ordet \"" + correctWord + "\" og fandt det med " + amountWrongGuess + " forkerte gæt.";
