@@ -12,10 +12,14 @@ import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -41,6 +45,7 @@ public class GameFrag extends Fragment implements Observer, View.OnClickListener
     private TextView hiddenWordProgressTextView, usedLettersTextView, amountWrongGuessTextView;
     private EditText guessEditText;
     private ArrayList<HighscoreModel> highscores;
+    GridView gridView;
 
     private final String SHAREDPREFKEY = "shared_preferences";
     private final String HIGHSCOREKEY = "highscore";
@@ -69,9 +74,12 @@ public class GameFrag extends Fragment implements Observer, View.OnClickListener
         progressImage = root.findViewById(R.id.imageView);
         progressImage.setImageResource(R.drawable.forkert0);
 
-        doGuessButton = root.findViewById(R.id.tryGuessButton);
+        //doGuessButton = root.findViewById(R.id.tryGuessButton);
         hiddenWordProgressTextView = root.findViewById(R.id.hiddenWordTextView);
-        guessEditText = root.findViewById(R.id.guessEditText);
+        //guessEditText = root.findViewById(R.id.guessEditText);
+
+        createGridview(root);
+
         usedLettersTextView = root.findViewById(R.id.usedLettersTextView);
         amountWrongGuessTextView = root.findViewById(R.id.numberOfGuessesTextView);
 
@@ -81,13 +89,13 @@ public class GameFrag extends Fragment implements Observer, View.OnClickListener
 
         getName();
 
-        doGuessButton.setOnClickListener(this);
+        //doGuessButton.setOnClickListener(this);
         return root;
     }
 
     @Override
     public void onClick(View v) {
-        String guess = guessEditText.getText().toString();
+/*        String guess = guessEditText.getText().toString();
         if (gp.guessLetter(guess)) {
             hiddenWordProgressTextView.setText(gp.getWordProgress());
         } else {
@@ -95,7 +103,62 @@ public class GameFrag extends Fragment implements Observer, View.OnClickListener
         }
         usedLettersTextView.setText(gp.getUsedLetters());
         guessEditText.setText("");
-        isGameOver();
+        isGameOver();*/
+    }
+
+    public void createGridview(View root) {
+        final String[] alphabet = new String[]{
+                "A", "B", "C", "D", "E",
+                "F", "G", "H", "I", "J",
+                "K", "L", "M", "N", "O",
+                "P", "Q", "R", "S", "T",
+                "U", "V", "W", "X", "Y",
+                "Z", "Æ", "Ø", "Å"};
+
+        gridView = root.findViewById(R.id.gridView1);
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, alphabet);
+        gridView.setAdapter(adapter);
+
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+                String guess = ((TextView) v).getText().toString().toLowerCase();
+                if (gp.guessLetter(guess)) {
+                    hiddenWordProgressTextView.setText(gp.getWordProgress());
+                } else {
+                    amountWrongGuessTextView.setText(gp.getAmountWrongGuess() + " " + amountWrongStr);
+                    setProgressImage(amountWrongGuess);
+                }
+                usedLettersTextView.setText(gp.getUsedLetters());
+                isGameOver();
+                ((TextView) v).setVisibility(View.INVISIBLE);
+            }
+        });
+    }
+
+    private void setProgressImage(int amountWrongGuess) {
+        switch (amountWrongGuess) {
+            case 1:
+                progressImage.setImageResource(R.drawable.forkert1);
+                break;
+            case 2:
+                progressImage.setImageResource(R.drawable.forkert2);
+                break;
+            case 3:
+                progressImage.setImageResource(R.drawable.forkert3);
+                break;
+            case 4:
+                progressImage.setImageResource(R.drawable.forkert4);
+                break;
+            case 5:
+                progressImage.setImageResource(R.drawable.forkert5);
+                break;
+            case 6:
+                progressImage.setImageResource(R.drawable.forkert6);
+                break;
+            default:
+                break;
+        }
     }
 
     public void isGameOver() {

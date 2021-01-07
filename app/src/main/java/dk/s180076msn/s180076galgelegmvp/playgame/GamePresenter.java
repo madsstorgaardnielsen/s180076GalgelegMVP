@@ -76,7 +76,7 @@ public class GamePresenter implements Subject {
 
     String CUSTOM_WORDS_KEY = "wordlistkey";
 
-    private ArrayList<String> loadCustomWordList() {
+    public ArrayList<String> loadCustomWordList() {
         SharedPreferences sharedPreferences = context.getSharedPreferences(CUSTOM_WORDS_KEY, Context.MODE_PRIVATE);
         Gson gson = new Gson();
         String json = sharedPreferences.getString(CUSTOM_WORDS_KEY, "fejl");

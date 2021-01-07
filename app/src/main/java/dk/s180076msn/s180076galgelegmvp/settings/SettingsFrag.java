@@ -16,11 +16,13 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
 import dk.s180076msn.s180076galgelegmvp.R;
 import dk.s180076msn.s180076galgelegmvp.MainMenuFrag;
+import dk.s180076msn.s180076galgelegmvp.playgame.GamePresenter;
 
 public class SettingsFrag extends Fragment implements View.OnClickListener {
     Button easyButton, mediumButton, hardButton, useCustomWords, customWordListeBtn;

@@ -35,15 +35,9 @@ public class CustomWordListFrag extends Fragment {
         View root = inflater.inflate(R.layout.fragment_custom_word_list, container, false);
 
         listItems = getArguments().getStringArray("stringarraykey");
-
-        System.out.println(Arrays.toString(listItems));
-
         mOrder = (Button) root.findViewById(R.id.customWordlistBtn);
         mItemSelected = (TextView) root.findViewById(R.id.tvChosenWords);
-
-
         checkedItems = new boolean[listItems.length];
-
         mOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -52,13 +46,6 @@ public class CustomWordListFrag extends Fragment {
                 mBuilder.setMultiChoiceItems(listItems, checkedItems, new DialogInterface.OnMultiChoiceClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int position, boolean isChecked) {
-//                        if (isChecked) {
-//                            if (!mUserItems.contains(position)) {
-//                                mUserItems.add(position);
-//                            }
-//                        } else if (mUserItems.contains(position)) {
-//                            mUserItems.remove(position);
-//                        }
                         if (isChecked) {
                             mUserItems.add(position);
                         } else {
@@ -92,18 +79,6 @@ public class CustomWordListFrag extends Fragment {
                         dialogInterface.dismiss();
                     }
                 });
-
-                mBuilder.setNeutralButton("Ryd", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int which) {
-                        for (int i = 0; i < checkedItems.length; i++) {
-                            checkedItems[i] = false;
-                            mUserItems.clear();
-                            mItemSelected.setText("");
-                        }
-                    }
-                });
-
                 AlertDialog mDialog = mBuilder.create();
                 mDialog.show();
             }
