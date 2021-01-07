@@ -52,8 +52,8 @@ public class GameFactory {
                 return null;
         }
     }
+
     private void startNewCustomGame(ArrayList<String> customWordList) {
-        //TODO pr'v at print wordlist og se hvad der foregår
         System.out.println(correctWord);
         correctWord = customWordList.get(new Random().nextInt(customWordList.size()));
         amountWrongGuess = 0;

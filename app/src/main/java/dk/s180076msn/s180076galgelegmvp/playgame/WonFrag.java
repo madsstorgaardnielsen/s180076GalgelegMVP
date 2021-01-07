@@ -10,6 +10,8 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -30,7 +32,9 @@ public class WonFrag extends Fragment implements Observer, View.OnClickListener 
     Subject sgp;
     int amountWrongGuess;
     String playerName;
+    MediaPlayer mp;
     Context context;
+    Animation anim;
 
     public WonFrag(Subject sgp) {
         this.sgp = sgp;
@@ -41,13 +45,16 @@ public class WonFrag extends Fragment implements Observer, View.OnClickListener 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_won, container, false);
         final KonfettiView konfettiView = root.findViewById(R.id.viewKonfetti);
-
+        anim =  AnimationUtils.loadAnimation(getActivity(),R.anim.winning);
         winnerNameTextView = root.findViewById(R.id.winnerNameTextView);
         amountWrongGuessTextView = root.findViewById(R.id.winnerStatTextView);
         gotoMainMenu = root.findViewById(R.id.gotoMainMenu);
 
+
+
         wonGameImg = root.findViewById(R.id.winnerImageView);
         wonGameImg.setImageResource(R.drawable.won);
+        wonGameImg.startAnimation(anim);
 
         konfettiView.build()
                 .addColors(Color.YELLOW, Color.GREEN, Color.MAGENTA, Color.BLUE, Color.CYAN, Color.RED)
@@ -60,11 +67,17 @@ public class WonFrag extends Fragment implements Observer, View.OnClickListener 
                 .setPosition(-50f, konfettiView.getWidth() + 1250f, -50f, -50f)
                 .streamFor(500, 5000L);
 
+
+
         winnerNameTextView.setText("Tillykke " + playerName + ", du vandt!");
+        winnerNameTextView.startAnimation(anim);
+
         if (amountWrongGuess >= 1) {
             amountWrongGuessTextView.setText("med " + amountWrongGuess + " forkert gæt!");
+            amountWrongGuessTextView.startAnimation(anim);
         } else
             amountWrongGuessTextView.setText("med " + amountWrongGuess + " forkerte gæt!");
+        amountWrongGuessTextView.startAnimation(anim);
 
         gotoMainMenu.setOnClickListener(this);
         return root;

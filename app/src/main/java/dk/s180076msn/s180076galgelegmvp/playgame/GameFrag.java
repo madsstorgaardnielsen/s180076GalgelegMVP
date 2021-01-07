@@ -26,6 +26,7 @@ import java.util.ArrayList;
 
 import dk.s180076msn.s180076galgelegmvp.R;
 import dk.s180076msn.s180076galgelegmvp.highscore.HighscoreModel;
+import dk.s180076msn.s180076galgelegmvp.settings.CustomWordListFrag;
 import dk.s180076msn.s180076galgelegmvp.settings.SettingsModel;
 
 
