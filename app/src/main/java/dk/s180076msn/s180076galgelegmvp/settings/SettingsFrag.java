@@ -29,7 +29,7 @@ import dk.s180076msn.s180076galgelegmvp.R;
 import dk.s180076msn.s180076galgelegmvp.MainMenuFrag;
 
 public class SettingsFrag extends Fragment implements View.OnClickListener {
-    Button easyButton, mediumButton, hardButton, useCustomWords;
+    Button easyButton, mediumButton, hardButton, useCustomWords, gotoMenu;
     ImageView imageView;
     private final String DIFFICULTY_LEVEL_EASY = "easy";
     private final String DIFFICULTY_LEVEL_MEDIUM = "medium";
@@ -59,6 +59,7 @@ public class SettingsFrag extends Fragment implements View.OnClickListener {
         mediumButton = root.findViewById(R.id.mediumButton);
         hardButton = root.findViewById(R.id.hardButton);
         useCustomWords = root.findViewById(R.id.useCustomWordsBtn);
+        gotoMenu = root.findViewById(R.id.gotoMainMenu);
 
         mItemSelected = (TextView) root.findViewById(R.id.tvChosenWords);
         mOrder = root.findViewById(R.id.gotoCustomWordList);
@@ -68,6 +69,7 @@ public class SettingsFrag extends Fragment implements View.OnClickListener {
         hardButton.setOnClickListener(this);
         useCustomWords.setOnClickListener(this);
         mOrder.setOnClickListener(this);
+        gotoMenu.setOnClickListener(this);
         return root;
     }
 
@@ -103,6 +105,8 @@ public class SettingsFrag extends Fragment implements View.OnClickListener {
             isCustomList = true;
             saveIsCustomWordList(isCustomList);
             makeToast("Brugerdefineret");
+            setFragment(f);
+        } else if (v == gotoMenu) {
             setFragment(f);
         } else if (v == mOrder) {
             bgThread.execute(() -> {
